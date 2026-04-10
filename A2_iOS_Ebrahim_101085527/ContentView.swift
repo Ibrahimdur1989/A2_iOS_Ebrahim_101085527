@@ -59,8 +59,14 @@ struct ContentView: View {
                         .disabled(currentIndex == products.count - 1)
                     }
                     
-                    NavigationLink("View Product List") {
-                        ProductListView()
+                    VStack(spacing: 15) {
+                        NavigationLink("View Product List") {
+                            ProductListView()
+                        }
+                        
+                        NavigationLink("Add New Product ") {
+                            AddProductView()
+                        }
                     }
                     .padding(.top, 20)
                 }
