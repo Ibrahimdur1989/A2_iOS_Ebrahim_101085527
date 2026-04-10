@@ -77,6 +77,7 @@ struct ContentView: View {
             }
             .padding()
             .navigationTitle("Products")
+            .font(.title)
             .onAppear {
                 insertSampleProducts()
             }
