@@ -13,7 +13,7 @@ struct ContentView: View {
 
     @FetchRequest(
         entity: Product.entity(),
-        sortDescriptors: [NSSortDescriptor(key: productName, ascending: true)],
+        sortDescriptors: [NSSortDescriptor(key: "productName", ascending: true)],
         animation: .default)
     private var products: FetchedResults<Product>
     

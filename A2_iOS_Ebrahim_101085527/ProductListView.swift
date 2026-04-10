@@ -18,17 +18,31 @@ struct ProductListView: View {
         animation: .default)
     private var products: FetchedResults<Product>
 
+    @State private var searchText = ""
+
+    var filteredProducts: [Product] {
+        guard !searchText.isEmpty else { return Array(products) }
+        let search = searchText.lowercased()
+        return products.filter { product in
+            let name = product.productName?.lowercased() ?? ""
+            let description = product.productDescription?.lowercased() ?? ""
+            return name.contains(search) || description.contains(search)
+        }
+    }
+
     var body: some View {
         List {
-            ForEach(products) { product in
+            ForEach(filteredProducts) { product in
                 VStack(alignment: .leading) {
                     Text(product.productName ?? "")
                         .font(.headline)
+
                     Text(product.productDescription ?? "")
                         .font(.subheadline)
                 }
             }
         }
         .navigationTitle("Product List")
+        .searchable(text: $searchText, prompt: "Search by name or description")
     }
 }

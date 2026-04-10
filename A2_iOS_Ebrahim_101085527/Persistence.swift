@@ -15,8 +15,13 @@ struct PersistenceController {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
         for _ in 0..<10 {
-            let newItem = Product(context: viewContext)
-            newItem.Product = Date()
+            let newProduct = Product(context: viewContext)
+            newProduct.productId = ""
+            newProduct.productName = ""
+            newProduct.productDescription = ""
+            newProduct.productPrice = 0.0
+            newProduct.productProvider = ""
+            
         }
         do {
             try viewContext.save()
