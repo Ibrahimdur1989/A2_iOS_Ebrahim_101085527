@@ -61,6 +61,7 @@ struct ContentView: View {
                             }
                         }
                         .disabled(currentIndex == products.count - 1)
+                        .buttonStyle(.bordered)
                     }
                     
                     VStack(spacing: 15) {
