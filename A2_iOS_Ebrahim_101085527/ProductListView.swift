@@ -33,7 +33,7 @@ struct ProductListView: View {
     var body: some View {
         List {
             ForEach(filteredProducts) { product in
-                VStack(alignment: .leading) {
+                VStack(alignment: .leading, spacing: 5) {
                     Text(product.productName ?? "")
                         .font(.title3)
 
