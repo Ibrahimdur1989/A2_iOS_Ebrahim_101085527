@@ -32,6 +32,7 @@ struct AddProductView: View {
                 saveProduct()
             }
         }
+        .padding()
         .navigationTitle("Add Product")
     }
 

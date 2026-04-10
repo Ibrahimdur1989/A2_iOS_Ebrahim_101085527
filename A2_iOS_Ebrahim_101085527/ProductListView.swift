@@ -35,7 +35,7 @@ struct ProductListView: View {
             ForEach(filteredProducts) { product in
                 VStack(alignment: .leading) {
                     Text(product.productName ?? "")
-                        .font(.headline)
+                        .font(.title3)
 
                     Text(product.productDescription ?? "")
                         .font(.subheadline)
