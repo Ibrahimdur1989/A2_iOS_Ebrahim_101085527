@@ -31,6 +31,7 @@ struct AddProductView: View {
             Button("Save Product") {
                 saveProduct()
             }
+            .buttonStyle(.borderedProminent)
         }
         .padding()
         .navigationTitle("Add Product")
