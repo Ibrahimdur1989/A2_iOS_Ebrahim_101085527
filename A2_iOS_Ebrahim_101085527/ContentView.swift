@@ -43,6 +43,7 @@ struct ContentView: View {
                     }
                     .padding()
                     .padding(.horizontal)
+                    .background(Color(.systemGray6))
                     
                     
                     HStack(spacing: 20) {
