@@ -40,6 +40,7 @@ struct ProductListView: View {
                     Text(product.productDescription ?? "")
                         .font(.subheadline)
                 }
+                .padding(5)
             }
         }
         .navigationTitle("Product List")
