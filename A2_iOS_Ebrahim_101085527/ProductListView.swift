@@ -45,6 +45,6 @@ struct ProductListView: View {
         }
         .navigationTitle("Product List")
         .font(.title2)
-        .searchable(text: $searchText, prompt: "Search by name or description")
+        .searchable(text: $searchText, prompt: "Search products....")
     }
 }
