@@ -33,7 +33,7 @@ struct AddProductView: View {
             }
             .buttonStyle(.borderedProminent)
         }
-        .padding()
+        .padding(.top)
         .navigationTitle("Add Product")
     }
 
