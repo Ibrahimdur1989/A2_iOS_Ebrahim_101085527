@@ -13,28 +13,64 @@ struct ContentView: View {
 
     @FetchRequest(
         entity: Product.entity(),
-        sortDescriptors: [NSSortDescriptor(keyPath: \Product.productName, ascending: true)],
+        sortDescriptors: [NSSortDescriptor(key: productName, ascending: true)],
         animation: .default)
     private var products: FetchedResults<Product>
+    
+    @State private var currentIndex: Int = 0
 
     var body: some View {
-        NavigationView {
-            List {
-                ForEach(products) { product in
-                    VStack(alignment: .leading) {
-                        Text(product.productName ?? "")
-                            .font(.headline)
+        NavigationStack {
+            VStack(spacing: 20){
+                if products.isEmpty {
+                    Text("No products available")
+                        .onAppear {
+                            insertSampleProducts()
+                        }
+                } else {
+                    let product = products[currentIndex]
+                    
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("Product Details")
+                            .font(.title2)
+                            .bold()
                         
-                        Text(product.productDescription ?? "")
-                            .font(.subheadline)
+                        Text("ID: \(product.productId ?? "")")
+                        Text("Name: \(product.productName ?? "")")
+                        Text("Description: \(product.productDescription ?? "")")
+                        Text("Price: \(product.productPrice)")
+                        Text("Provider: \(product.productProvider ?? "")")
                     }
+                    .padding()
+                    
+                    HStack(spacing: 20) {
+                        Button("Previous") {
+                            if currentIndex > 0 {
+                                currentIndex -= 1
+                            }
+                        }
+                        .disabled(currentIndex == 0)
+                        
+                        Button("Next") {
+                            if currentIndex < products.count - 1 {
+                                currentIndex += 1
+                            }
+                        }
+                        .disabled(currentIndex == products.count - 1)
+                    }
+                    
+                    NavigationLink("View Product List") {
+                        ProductListView()
+                    }
+                    .padding(.top, 20)
                 }
             }
+            .padding()
             .navigationTitle("Products")
             .onAppear {
                 insertSampleProducts()
             }
-        }
+        }            
     }
 
     private func insertSampleProducts() {
