@@ -42,6 +42,8 @@ struct ContentView: View {
                         Text("Provider: \(product.productProvider ?? "")")
                     }
                     .padding()
+                    .padding(.horizontal)
+                    
                     
                     HStack(spacing: 20) {
                         Button("Previous") {
@@ -78,6 +80,7 @@ struct ContentView: View {
             }
         }            
     }
+    
 
     private func insertSampleProducts() {
         if products.count > 0 {
@@ -101,6 +104,9 @@ struct ContentView: View {
             print("Error saving sample products: \(error)")
         }
     }
+    
+    
+        
 
     private func addProduct(id: String, name: String, description: String, price: Double, provider: String) {
         let newProduct = Product(context: viewContext)
