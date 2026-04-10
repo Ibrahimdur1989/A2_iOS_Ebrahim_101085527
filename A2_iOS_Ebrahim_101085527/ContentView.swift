@@ -12,76 +12,64 @@ struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
 
     @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
+        entity: Product.entity(),
+        sortDescriptors: [NSSortDescriptor(keyPath: \Product.productName, ascending: true)],
         animation: .default)
-    private var items: FetchedResults<Item>
+    private var products: FetchedResults<Product>
 
     var body: some View {
         NavigationView {
             List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp!, formatter: itemFormatter)")
-                    } label: {
-                        Text(item.timestamp!, formatter: itemFormatter)
-                    }
-                }
-                .onDelete(perform: deleteItems)
-            }
-            .toolbar {
-#if os(iOS)
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
-#endif
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
+                ForEach(products) { product in
+                    VStack(alignment: .leading) {
+                        Text(product.productName ?? "")
+                            .font(.headline)
+                        
+                        Text(product.productDescription ?? "")
+                            .font(.subheadline)
                     }
                 }
             }
-            Text("Select an item")
-        }
-    }
-
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(context: viewContext)
-            newItem.timestamp = Date()
-
-            do {
-                try viewContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+            .navigationTitle("Products")
+            .onAppear {
+                insertSampleProducts()
             }
         }
     }
 
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            offsets.map { items[$0] }.forEach(viewContext.delete)
-
-            do {
-                try viewContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-            }
+    private func insertSampleProducts() {
+        if products.count > 0 {
+            return
         }
+        
+        addProduct(id: "P001", name: "iPhone 15", description: "Apple smartphone", price: 1299.99, provider: "Apple")
+        addProduct(id: "P002", name: "Galaxy S24", description: "Samsung smartphone", price: 1199.99, provider: "Samsung")
+        addProduct(id: "P003", name: "iPad Air", description: "Apple tablet device", price: 899.99, provider: "Apple")
+        addProduct(id: "P004", name: "MacBook Air", description: "Lightweight Apple laptop", price: 1499.99, provider: "Apple")
+        addProduct(id: "P005", name: "Dell XPS 13", description: "Compact Windows laptop", price: 1399.99, provider: "Dell")
+        addProduct(id: "P006", name: "Sony Headphones", description: "Wireless noise cancelling headphones", price: 399.99, provider: "Sony")
+        addProduct(id: "P007", name: "Apple Watch", description: "Smart watch for fitness and notifications", price: 599.99, provider: "Apple")
+        addProduct(id: "P008", name: "Canon Camera", description: "Digital camera for photography", price: 1099.99, provider: "Canon")
+        addProduct(id: "P009", name: "HP Printer", description: "Wireless home office printer", price: 249.99, provider: "HP")
+        addProduct(id: "P010", name: "Logitech Mouse", description: "Wireless ergonomic mouse", price: 79.99, provider: "Logitech")
+        
+        do {
+            try viewContext.save()
+        } catch {
+            print("Error saving sample products: \(error)")
+        }
+    }
+
+    private func addProduct(id: String, name: String, description: String, price: Double, provider: String) {
+        let newProduct = Product(context: viewContext)
+        newProduct.productId = id
+        newProduct.productName = name
+        newProduct.productDescription = description
+        newProduct.productPrice = price
+        newProduct.productProvider = provider
     }
 }
 
-private let itemFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .short
-    formatter.timeStyle = .medium
-    return formatter
-}()
 
 #Preview {
     ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
