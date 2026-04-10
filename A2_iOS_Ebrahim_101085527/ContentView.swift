@@ -38,7 +38,7 @@ struct ContentView: View {
                         Text("ID: \(product.productId ?? "")")
                         Text("Name: \(product.productName ?? "")")
                         Text("Description: \(product.productDescription ?? "")")
-                        Text("Price: \(product.productPrice)")
+                        Text("Price: \(product.productPrice, specifier: "%.2f")")
                         Text("Provider: \(product.productProvider ?? "")")
                     }
                     .padding()

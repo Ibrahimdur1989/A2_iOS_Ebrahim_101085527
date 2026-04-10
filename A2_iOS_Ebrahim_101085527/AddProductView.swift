@@ -18,7 +18,7 @@ struct AddProductView: View {
     @State private var productPrice = ""
     @State private var productProvider = ""
 
-    var body: someView {
+    var body: some View {
         Form {
             Section("Product Information") {
                 TextField("Product ID", text: $productId)
